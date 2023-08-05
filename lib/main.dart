@@ -37,6 +37,7 @@ class MapSampleState extends State<MapSample> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
   final TextEditingController _originController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   final TextEditingController _destinationController = TextEditingController();
 
   final Set<Marker> _markers = <Marker>{};
@@ -116,6 +117,29 @@ class MapSampleState extends State<MapSample> {
           Row(
             children: [
               Expanded(
+                child: TextFormField(
+                  controller: _searchController,
+                  decoration: const InputDecoration(hintText: 'Search by City'),
+                  onChanged: (value) {
+                    print(value);
+                  },
+                ),
+              ),
+              IconButton(
+                onPressed: () async {
+                  //for getting place only
+                  var place =
+                  await LocationService().getPlace(_searchController.text);
+                  _goToplace(place);
+                },
+                icon: const Icon(Icons.location_city),
+              ),
+
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
                 child: Column(
                   children: [
                     TextFormField(
@@ -149,29 +173,11 @@ class MapSampleState extends State<MapSample> {
 
                   _setPolyline(directions['polyline_decoded']);
 
-                  //for getting place only
-                  // var place =
-                  // await LocationService().getPlace(_searchController.text);
-                  // _goToplace(place);
                 },
                 icon: const Icon(Icons.search),
               ),
             ],
           ),
-          // Row(
-          //   children: [
-          //     Expanded(
-          //       child: TextFormField(
-          //         controller: _searchController,
-          //         decoration: const InputDecoration(hintText: 'Search by City'),
-          //         onChanged: (value) {
-          //           print(value);
-          //         },
-          //       ),
-          //     ),
-          //
-          //   ],
-          // ),
           Expanded(
             child: GoogleMap(
               markers: _markers,
@@ -195,17 +201,17 @@ class MapSampleState extends State<MapSample> {
     );
   }
 
-  // Future<void> _goToplace(Map<String, dynamic> place) async {
-  //   final double latitude = place['geometry']['location']['lat'];
-  //   final double longitude = place['geometry']['location']['lng'];
-  //
-  //   final GoogleMapController controller = await _controller.future;
-  //   await controller.animateCamera(CameraUpdate.newCameraPosition(
-  //     CameraPosition(target: LatLng(latitude, longitude), zoom: 12),
-  //   ));
-  //   //
-  //   _setMarker(LatLng(latitude, longitude));
-  // }
+  Future<void> _goToplace(Map<String, dynamic> place) async {
+    final double latitude = place['geometry']['location']['lat'];
+    final double longitude = place['geometry']['location']['lng'];
+
+    final GoogleMapController controller = await _controller.future;
+    await controller.animateCamera(CameraUpdate.newCameraPosition(
+      CameraPosition(target: LatLng(latitude, longitude), zoom: 12),
+    ));
+    //
+    _setMarker(LatLng(latitude, longitude));
+  }
 
   Future<void> _goToplacefordestination(double latitude, double longitude,
       Map<String, dynamic> boundsNe, Map<String, dynamic> boundsSw) async {
