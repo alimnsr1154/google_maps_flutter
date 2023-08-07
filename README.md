@@ -1,16 +1,15 @@
-# maps
+# Maps
 
-A new Flutter project.
+A Maps Flutter project.
 
 ## Getting Started
+I created a google maps application integrated by the google Maps API. There are total of three search boxes on the main screen.
 
-This project is a starting point for a Flutter application.
+### Search for city
 
-A few resources to get you started if this is your first Flutter project:
+The first search box is for searching any city in the world. you have to write the city name and click onto the city icon button in order to search it.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Search for route
+The second and third search boxes are for the origin and destination and you can find the route between them. Write the origin in the second box and the destination in the third box . After that, click onto the search button and you will get the route.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![maps](https://github.com/alimnsr1154/google_maps_flutter/assets/110721237/8188ab6a-6566-499a-84f4-f5f1feb47be5)
